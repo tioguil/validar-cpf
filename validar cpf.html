@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<head>
+<title> Verificador de CPF</title>
+<style>
+body {
+
+	background-color: #c5c5c5;
+}
+#menu{
+	border-style: solid;
+	border-color: red;
+	width: 1200px;
+	height: 150px;
+	border-radius: 10px;
+	background-color: orange;
+
+
+}
+
+</style>
+
+<script type="text/javascript"> 
+
+function CriticaNumCPF() {
+        if (form01.num_cpf.value != '') {
+            if (!validacpf(form01.num_cpf.value)) {
+                form01.num_cpf.value = '';
+                form01.num_cpf.focus();
+                return false;
+            }
+            var vCPF = form01.num_cpf.value;
+            for (var i = 1; i <= vCPF.length; i++) {
+                vCPF = vCPF.replace('.', '');
+                vCPF = vCPF.replace('-', '');
+            }
+            if (parseInt(vCPF.length < 11)) {
+                alert('CPF inválido.');
+                return false;
+            }
+        }
+    }
+
+
+    function validacpf(numcpf) {
+        x = 0;
+        soma = 0;
+        dig1 = 0;
+        dig2 = 0;
+        texto = "";
+        numcpf1 = "";
+        numcpf = numcpf.replace(".", "");
+        numcpf = numcpf.replace(".", "");
+        numcpf = numcpf.replace("-", "");
+
+        if ((numcpf == "11111111111") || (numcpf == "22222222222") || (numcpf == "33333333333") ||
+            (numcpf == "44444444444") || (numcpf == "55555555555") || (numcpf == "66666666666") ||
+            (numcpf == "77777777777") || (numcpf == "88888888888") || (numcpf == "99999999999")) {
+            alert("Número do CPF inválido.");
+            event.srcElement.value = "";
+            return false;
+        }
+
+        len = numcpf.length; x = len - 1;
+        // var numcpf = "12345678909";
+        for (var i = 0; i <= len - 3; i++) {
+            y = numcpf.substring(i, i + 1);
+            soma = soma + (y * x);
+            x = x - 1;
+            texto = texto + y;
+        }
+        dig1 = 11 - (soma % 11);
+        if (dig1 == 10) dig1 = 0;
+        if (dig1 == 11) dig1 = 0;
+        numcpf1 = numcpf.substring(0, len - 2) + dig1;
+        x = 11; soma = 0;
+        for (var i = 0; i <= len - 2; i++) {
+            soma = soma + (numcpf1.substring(i, i + 1) * x);
+            x = x - 1;
+        }
+        dig2 = 11 - (soma % 11);
+        if (dig2 == 10) dig2 = 0;
+        if (dig2 == 11) dig2 = 0;
+        //alert ("Digito Verificador : " + dig1 + "" + dig2);
+        if ((dig1 + "" + dig2) == numcpf.substring(len, len - 2)) {
+            return true;
+        }
+        alert("Numero do CPF inválido.");
+        return false;
+
+ }
+function MascCpf()
+    {
+        var valor;
+        valor = event.srcElement.value;
+        if ( (event.keyCode < '48' || event.keyCode > '57') &&
+        (event.keyCode != '8') )
+        {
+            event.returnValue=false;
+        }
+        else
+        {
+            if ( ( (valor.length + 1) == 3 ) ||
+            ( (valor.length + 1) == 7 ) )
+            {
+                event.srcElement.value += String.fromCharCode(event.keyCode) + '.';
+                event.returnValue=false;
+            }
+            else
+            {
+                if ( ( (valor.length + 1) == 11 ) )
+                {
+                    event.srcElement.value += String.fromCharCode(event.keyCode) + '-';
+                    event.returnValue=false;
+                }
+            }
+        }
+    }
+
+
+
+
+</script>
+</head>
+<body>
+
+</div>
+<div id="menu">
+<div style=" position:absolute; top:1%; left:50%; margin-left: -150px; ">
+<div>
+<h2> Validador de CPF</h2>
+</div>
+<form name="form01">
+<input onchange=CriticaNumCPF(); onkeypress=javascript:MascCpf() maxLength=14 size=15 value="" name=num_cpf>
+</form>
+</div>
+
+
+
+
+</body>
+</html>
